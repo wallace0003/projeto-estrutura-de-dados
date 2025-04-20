@@ -6,6 +6,7 @@ Fila *criar_fila() {
     Fila *fila = malloc(sizeof(Fila));
     fila->head = NULL;
     fila->tail = NULL;
+    fila->qtd = 0;
     return fila;
 }
 
@@ -20,6 +21,7 @@ void enfileirar(Fila *fila, Registro *r) {
         fila->tail->proximo = novo;
         fila->tail = novo;
     }
+    fila->qtd++;
     printf("Paciente enfileirado com sucesso.\n");
 }
 
@@ -36,13 +38,17 @@ Registro *desenfileirar(Fila *fila) {
     if (fila->head == NULL) {
         fila->tail = NULL;
     }
-
     free(removido);
+    fila->qtd--;
     return r;
 }
 
 void mostrar_fila(Fila *fila) {
     No *atual = fila->head;
+    int qtd_fila = fila->qtd;
+    printf("Quantidade de pacientes na fila: %d\n", qtd_fila);
+    printf("----------Pacientes:----------\n");
+    printf("\n");
     while (atual != NULL) {
         Registro *r = atual->dados;
         printf("Nome: %s\n", r->nome);

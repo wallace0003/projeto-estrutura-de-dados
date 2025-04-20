@@ -32,7 +32,8 @@ Celula *criar_celula(Registro registro);
 void inserir(LDE *lista, Registro registro);
 void remover(LDE *lista, const char *rg);
 void mostrar(LDE *lista);
-void consultar(LDE *lista, const char *rg);
+Registro consultar(LDE *lista, const char *rg);
 void atualizar(LDE *lista, const char *rg);
+Registro* consultar_ponteiro (LDE *lista, const char *rg);
 
 #endif

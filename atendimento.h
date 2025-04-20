@@ -11,6 +11,7 @@ typedef struct No {
 typedef struct {
     No *head;
     No *tail;
+    int qtd;
 } Fila;
 
 Fila *criar_fila();
