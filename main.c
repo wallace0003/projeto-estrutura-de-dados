@@ -1,21 +1,32 @@
-#include "estruturas.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "cadastro.h"
+#include "menu.h"
 
-
-int main(){
+int main() {
     LDE *lista = criar_lista();
-    int num;
-    for(int i = 0; i < 10; i++){
-        scanf("%d", &num);
-        inserir(lista, num);
-        mostrar(lista);
-    }
+    int opcao;
 
-    for(int i = 0; i < 10; i++){
-        scanf("%d", &num);
-        remover(lista, num);
-        mostrar(lista);
-    }
-    
+    do {
+        printf("\n=== Menu Principal ===\n");
+        printf("1. Cadastrar (pacientes)\n");
+        printf("0. Sair\n");
+        printf("Escolha uma opcao: ");
+        scanf("%d", &opcao);
+        limpar_buffer();
+
+        switch (opcao) {
+            case 1:
+                menu_cadastro(lista);
+                break;
+            case 0:
+                printf("Encerrando o programa...\n");
+                break;
+            default:
+                printf("Opcao invalida!\n");
+        }
+    } while (opcao != 0);
+
     return 0;
 }
