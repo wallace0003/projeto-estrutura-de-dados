@@ -118,4 +118,3 @@ void consultar(LDE *lista, const char *rg) {
     }
     printf("Paciente com RG %s nao encontrado.\n", rg);
 }
-
