@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "cadastro.h"
+#include "atendimento.h"
 
 void limpar_buffer() {
     int c;
@@ -92,3 +93,57 @@ void menu_cadastro(LDE *lista) {
         }
     } while (opcao != 0);
 }
+
+void menu_atendimento(LDE *lista, Fila *fila){
+    int opcao;
+    char rg_busca[tam_rg];
+
+    do {
+        printf("\n--- Atendimento ---\n");
+        printf("1. Enfileirar paciente\n");
+        printf("2. Desenfileirar paciente\n");
+        printf("3. Mostrar fila\n");
+        printf("0. Voltar ao menu principal\n");
+        printf("Digite uma opção: ");
+        scanf("%d", &opcao);
+        limpar_buffer();
+
+        switch (opcao){
+            case 1: {
+                printf("RG do paciente que deseja enfileirar: ");
+                fgets(rg_busca, tam_rg, stdin);
+                rg_busca[strcspn(rg_busca, "\n")] = 0;
+
+                Registro *r = consultar_ponteiro(lista, rg_busca);
+                if (r != NULL) {
+                    enfileirar(fila, r);
+                } else {
+                    printf("Paciente não encontrado!\n");
+                }
+                break;
+            }
+
+            case 2: {
+                Registro *r = desenfileirar(fila);
+                if (r != NULL) {
+                    printf("Paciente: %s\n", r->nome);
+                    printf("RG: %s\n", r->rg);
+                }
+                break;
+            }
+
+            case 3:
+                mostrar_fila(fila);
+                break;
+
+            case 0:
+                printf("Voltando ao menu principal...\n");
+                break;
+
+            default:
+                printf("Opção inválida!\n");
+        }
+
+    } while(opcao != 0);
+}
+

@@ -99,7 +99,7 @@ void atualizar(LDE *lista, const char *rg) {
 }
 
 
-void consultar(LDE *lista, const char *rg) {
+Registro consultar(LDE *lista, const char *rg) {
     Celula *atual = lista->primeiro;
     while (atual != NULL) {
         if (strcmp(atual->registro.rg, rg) == 0) {
@@ -112,10 +112,25 @@ void consultar(LDE *lista, const char *rg) {
                    atual->registro.entrada->mes,
                    atual->registro.entrada->ano);
             printf("--------------------------\n");
-            return;
+            return atual->registro;
         }
         atual = atual->proximo;
     }
+
     printf("Paciente com RG %s nao encontrado.\n", rg);
+    Registro vazio = {0};  
+    return vazio;
 }
+
+Registro* consultar_ponteiro (LDE *lista, const char *rg) {
+    Celula *atual = lista->primeiro;
+    while (atual != NULL) {
+        if (strcmp(atual->registro.rg, rg) == 0) {
+            return &atual->registro;
+        }
+        atual = atual->proximo;
+    }
+    return NULL;
+}
+
 
