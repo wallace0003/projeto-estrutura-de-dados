@@ -3,6 +3,7 @@
 #include <string.h>
 #include "cadastro.h"
 #include "atendimento.h"
+#include "atendimento_prioritario.h"
 
 void limpar_buffer() {
     int c;
@@ -147,3 +148,57 @@ void menu_atendimento(LDE *lista, Fila *fila){
     } while(opcao != 0);
 }
 
+
+void menu_atendimento_prioritario(LDE *lista, Heap *heap) {
+    int opcao;
+    char rg_busca[tam_rg];
+
+    do {
+        printf("\n--- Atendimento Prioritário ---\n");
+        printf("1. Enfileirar paciente por prioridade\n");
+        printf("2. Atender paciente prioritário\n");
+        printf("3. Mostrar fila prioritária\n");
+        printf("0. Voltar ao menu principal\n");
+        printf("Escolha uma opção: ");
+        scanf("%d", &opcao);
+        limpar_buffer();
+
+        switch (opcao) {
+            case 1: {
+                printf("RG do paciente: ");
+                fgets(rg_busca, tam_rg, stdin);
+                rg_busca[strcspn(rg_busca, "\n")] = 0;
+
+                Registro *r = consultar_ponteiro(lista, rg_busca);
+                if (r != NULL) {
+                    enfileirar_prioritario(heap, r);
+                } else {
+                    printf("Paciente não encontrado!\n");
+                }
+                break;
+            }
+
+            case 2: {
+                Registro *r = desenfileirar_prioritario(heap);
+                if (r != NULL) {
+                    printf("Paciente atendido: %s | Idade: %d | RG: %s\n", r->nome, r->idade, r->rg);
+                } else {
+                    printf("Fila prioritária vazia!\n");
+                }
+                break;
+            }
+
+            case 3:
+                mostrar_heap(heap);
+                break;
+
+            case 0:
+                printf("Voltando ao menu principal...\n");
+                break;
+
+            default:
+                printf("Opção inválida!\n");
+        }
+
+    } while (opcao != 0);
+}
