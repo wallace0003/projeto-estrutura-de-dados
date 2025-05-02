@@ -2,17 +2,21 @@
 #include <stdlib.h>
 #include <string.h>
 #include "menu.h"
-
+#include "atendimento_prioritario.h"
 
 int main() {
     LDE *lista = criar_lista();
     Fila *fila = criar_fila();
+    Heap *prioridade = malloc(sizeof(Heap));
+    inicializar_heap(prioridade);
+
     int opcao;
 
     do {
         printf("\n=== Menu Principal ===\n");
-        printf("1. Cadastrar (pacientes)\n");
-        printf("2. Inserir paciente em uma fila de atendimento.\n");
+        printf("1. Cadastrar pacientes\n");
+        printf("2. Atendimento comum (fila)\n");
+        printf("3. Atendimento prioritário (por idade)\n");
         printf("0. Sair\n");
         printf("Escolha uma opcao: ");
         scanf("%d", &opcao);
@@ -25,6 +29,9 @@ int main() {
             case 2:
                 menu_atendimento(lista, fila);
                 break;
+            case 3:
+                menu_atendimento_prioritario(lista, prioridade);
+                break;
             case 0:
                 printf("Encerrando o programa...\n");
                 break;
@@ -33,5 +40,6 @@ int main() {
         }
     } while (opcao != 0);
 
+    free(prioridade);
     return 0;
 }
