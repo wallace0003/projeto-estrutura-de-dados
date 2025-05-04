@@ -17,6 +17,7 @@ int main() {
         printf("1. Cadastrar pacientes\n");
         printf("2. Atendimento comum (fila)\n");
         printf("3. Atendimento prioritário (por idade)\n");
+        printf("4. Pesquisa(idade/dia/mês/ano)\n");
         printf("0. Sair\n");
         printf("Escolha uma opcao: ");
         scanf("%d", &opcao);
@@ -32,6 +33,8 @@ int main() {
             case 3:
                 menu_atendimento_prioritario(lista, prioridade);
                 break;
+            case 4:
+                menu_pesquisa(lista);
             case 0:
                 printf("Encerrando o programa...\n");
                 break;
