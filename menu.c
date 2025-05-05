@@ -4,6 +4,7 @@
 #include "cadastro.h"
 #include "atendimento.h"
 #include "atendimento_prioritario.h"
+#include "pesquisa.h"
 
 void limpar_buffer() {
     int c;
@@ -199,6 +200,75 @@ void menu_atendimento_prioritario(LDE *lista, Heap *heap) {
             default:
                 printf("Opção inválida!\n");
         }
+
+    } while (opcao != 0);
+}
+
+void menu_pesquisa(LDE *lista) {
+    int opcao;
+    do {
+        printf("\n--- Pesquisa de Pacientes (Árvore Binária) ---\n");
+        printf("1. Mostrar registros ordenados por ANO de entrada\n");
+        printf("2. Mostrar registros ordenados por MÊS de entrada\n");
+        printf("3. Mostrar registros ordenados por DIA de entrada\n");
+        printf("4. Mostrar registros ordenados por IDADE\n");
+        printf("0. Voltar ao menu principal\n");
+        printf("Escolha uma opção: ");
+        scanf("%d", &opcao);
+        limpar_buffer();
+
+        Arvore *arvore = cria_arvore();
+
+        Celula *atual = lista->primeiro;  // Alterado de No* para Celula*
+        while (atual != NULL) {
+            switch (opcao) {
+                case 1:
+                    inserir_ano(arvore, &(atual->registro));  // Passa o endereço do registro
+                    break;
+                case 2:
+                    inserir_mes(arvore, &(atual->registro));
+                    break;
+                case 3:
+                    inserir_dia(arvore, &(atual->registro));
+                    break;
+                case 4:
+                    inserir_idade(arvore, &(atual->registro));
+                    break;
+            }
+            atual = atual->proximo;
+        }
+
+        switch (opcao) {
+            case 1:
+                printf("\n--- Pacientes ordenados por ANO de entrada ---\n");
+                in_ordem_ano(arvore->raiz);
+                printf("\n");
+                break;
+            case 2:
+                printf("\n--- Pacientes ordenados por MÊS de entrada ---\n");
+                in_ordem_mes(arvore->raiz);
+                printf("\n");
+                break;
+            case 3:
+                printf("\n--- Pacientes ordenados por DIA de entrada ---\n");
+                in_ordem_dia(arvore->raiz);
+                printf("\n");
+                break;
+            case 4:
+                printf("\n--- Pacientes ordenados por IDADE ---\n");
+                in_ordem_idade(arvore->raiz);
+                printf("\n");
+                break;
+            case 0:
+                printf("Voltando ao menu principal...\n");
+                break;
+            default:
+                printf("Opção inválida!\n");
+                break;
+        }
+
+        // Liberar memória da árvore (implementar se necessário)
+        // liberar_arvore(arvore);
 
     } while (opcao != 0);
 }
