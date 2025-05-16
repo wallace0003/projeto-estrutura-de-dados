@@ -272,3 +272,16 @@ void menu_pesquisa(LDE *lista) {
 
     } while (opcao != 0);
 }
+
+void menu_sobre(){
+    printf("         --- DESENVOLVEDORES ---         \n");
+    printf("Nomes:\n");
+    printf(" - Pedro Henrique da Fonseca do Nascimento   RA: 22.123.099-8\n");
+    printf(" - Wallace dos Santos Izidoro               RA: 22.123.104-8\n");
+    printf("-----------------------------------------\n");
+    printf("Curso: CIÊNCIA DA COMPUTAÇÃO\n");
+    printf("Disciplina: ESTRUTURA DE DADOS\n");
+    printf("Data: 19/05/2025\n");
+    printf("=========================================\n");
+
+}
