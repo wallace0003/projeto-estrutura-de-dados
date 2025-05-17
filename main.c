@@ -18,6 +18,8 @@ int main() {
         printf("2. Atendimento comum (fila)\n");
         printf("3. Atendimento prioritário (por idade)\n");
         printf("4. Pesquisa(idade/dia/mês/ano)\n");
+        printf("5. Desfazer\n");
+        printf("6. Salvar e carregar\n");
         printf("7. Sobre\n");
         printf("0. Sair\n");
         printf("Escolha uma opcao: ");
@@ -36,6 +38,12 @@ int main() {
                 break;
             case 4:
                 menu_pesquisa(lista);
+                break;
+            case 5:
+                menu_desfazer();
+                break;
+            case 6:
+                menu_salvar_carrega(fila, prioridade);
                 break;
             case 7:
                 menu_sobre();

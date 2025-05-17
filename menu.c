@@ -273,6 +273,91 @@ void menu_pesquisa(LDE *lista) {
     } while (opcao != 0);
 }
 
+void menu_desfazer(){
+
+}
+
+void menu_salvar_carrega(Fila *fila, Heap *heap) {
+    int op;
+    printf("\n1. Salvar pacientes\n");
+    printf("2. Carregar pacientes\n");
+    printf("Opcao: ");
+    scanf("%d", &op);
+    limpar_buffer();
+
+    switch (op) {
+        case 1: {
+            FILE *arquivo = fopen("fila.txt", "w");
+            if (!arquivo) {
+                printf("Erro ao abrir o arquivo.\n");
+                break;
+            }
+
+            // Salvar prioritários
+            for (int i = 0; i < heap->qtde; i++) {
+                Registro *r = heap->pacientes[i];
+                fprintf(arquivo, "PRIORITARIO\n");
+                fprintf(arquivo, "NOME: %s\n", r->nome);
+                fprintf(arquivo, "IDADE: %d\n", r->idade);
+                fprintf(arquivo, "RG: %s\n", r->rg);
+                fprintf(arquivo, "DIA DA ENTRADA: %02d/%02d/%04d\n\n",
+                        r->entrada->dia, r->entrada->mes, r->entrada->ano);
+            }
+
+            // Salvar na fila normal
+            No *atual = fila->head;
+            while (atual != NULL) {
+                Registro *r = atual->dados;
+                fprintf(arquivo, "NORMAL\n");
+                fprintf(arquivo, "NOME: %s\n", r->nome);
+                fprintf(arquivo, "IDADE: %d\n", r->idade);
+                fprintf(arquivo, "RG: %s\n", r->rg);
+                fprintf(arquivo, "ENTRADA DIA MES ANO: %02d/%02d/%04d\n\n",
+                        r->entrada->dia, r->entrada->mes, r->entrada->ano);
+                atual = atual->proximo;
+            }
+
+            fclose(arquivo);
+            printf("Pacientes salvos com sucesso.\n");
+            break;
+        }
+
+        case 2: {
+            FILE *arquivo = fopen("fila.txt", "r");
+            if (!arquivo) {
+                printf("Erro ao abrir o arquivo para leitura.\n");
+                break;
+            }
+
+            char tipo[20];
+            while (fscanf(arquivo, "%s", tipo) != EOF) {
+                Registro *r = malloc(sizeof(Registro));
+                r->entrada = malloc(sizeof(Data));
+
+                fscanf(arquivo, " NOME: %[^\n]", r->nome);
+                fscanf(arquivo, " IDADE: %d", &r->idade);
+                fscanf(arquivo, " RG: %[^\n]", r->rg);
+                fscanf(arquivo, " ENTRADA DIA MES ANO: %d/%d/%d\n",
+                       &r->entrada->dia, &r->entrada->mes, &r->entrada->ano);
+
+                if (strcmp(tipo, "PRIORITARIO") == 0) {
+                    enfileirar_prioritario(heap, r);
+                } else if (strcmp(tipo, "NORMAL") == 0) {
+                    enfileirar(fila, r);
+                }
+                fscanf(arquivo, "\n"); // consome a linha em branco
+            }
+
+            fclose(arquivo);
+            printf("Pacientes carregados com sucesso.\n");
+            break;
+        }
+
+        default:
+            printf("Opcao invalida.\n");
+    }
+}
+
 void menu_sobre(){
     printf("         --- DESENVOLVEDORES ---         \n");
     printf("Nomes:\n");
@@ -282,6 +367,6 @@ void menu_sobre(){
     printf("Curso: CIÊNCIA DA COMPUTAÇÃO\n");
     printf("Disciplina: ESTRUTURA DE DADOS\n");
     printf("Data: 19/05/2025\n");
-    printf("=========================================\n");
+    printf("------------------------------------------\n");
 
 }

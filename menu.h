@@ -11,5 +11,7 @@ void menu_cadastro(LDE *lista);
 void menu_atendimento(LDE *lista, Fila *fila);
 void menu_atendimento_prioritario(LDE *lista, Heap *heap);
 void menu_pesquisa(LDE *lista);
+void menu_salvar_carrega(Fila *fila, Heap *heap);
+void menu_desfazer();
 void menu_sobre();
 #endif
