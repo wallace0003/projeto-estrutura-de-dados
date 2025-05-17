@@ -5,6 +5,7 @@
 #include "atendimento.h"
 #include "atendimento_prioritario.h"
 #include "pesquisa.h"
+#include "desfazer.h"
 
 void limpar_buffer() {
     int c;
@@ -96,7 +97,7 @@ void menu_cadastro(LDE *lista) {
     } while (opcao != 0);
 }
 
-void menu_atendimento(LDE *lista, Fila *fila){
+void menu_atendimento(LDE *lista, Fila *fila, Pilha *pilha){
     int opcao;
     char rg_busca[tam_rg];
 
@@ -119,6 +120,7 @@ void menu_atendimento(LDE *lista, Fila *fila){
                 Registro *r = consultar_ponteiro(lista, rg_busca);
                 if (r != NULL) {
                     enfileirar(fila, r);
+                    push(pilha, r, "enfileirar");
                 } else {
                     printf("Paciente não encontrado!\n");
                 }
@@ -130,6 +132,7 @@ void menu_atendimento(LDE *lista, Fila *fila){
                 if (r != NULL) {
                     printf("Paciente: %s\n", r->nome);
                     printf("RG: %s\n", r->rg);
+                    push(pilha, r, "desenfileirar");
                 }
                 break;
             }
@@ -273,9 +276,59 @@ void menu_pesquisa(LDE *lista) {
     } while (opcao != 0);
 }
 
-void menu_desfazer(){
+void menu_desfazer(Pilha *historico, Fila *fila) {
+    int op;
+    printf("\n1. Mostrar operações da fila de atendimento\n");
+    printf("2. Desfazer última operação da fila de atendimento\n");
+    printf("Opção: ");
+    scanf("%d", &op);
+    limpar_buffer();
 
+    switch (op) {
+        case 1: {
+            mostrar_historico(historico);
+            break;
+        }
+
+        case 2: {
+            if (historico->topo == NULL) {
+                printf("Histórico vazio. Nenhuma operação para desfazer.\n");
+                break;
+            }
+
+            printf("\nOperação a ser desfeita: %s\n", historico->topo->operacao);
+            printf("Paciente: %s | RG: %s | Idade: %d\n",
+                   historico->topo->registro->nome,
+                   historico->topo->registro->rg,
+                   historico->topo->registro->idade);
+            printf("Digite 1 para confirmar o desfazer, ou outro número para cancelar: ");
+            int confirmacao;
+            scanf("%d", &confirmacao);
+            limpar_buffer();
+
+            if (confirmacao == 1) {
+                if (strcmp(historico->topo->operacao, "enfileirar") == 0) {
+                    desenfileirar_ultimo(fila);
+                    printf("Última operação de enfileiramento desfeita.\n");
+                } else if (strcmp(historico->topo->operacao, "desenfileirar") == 0) {
+                    reenfileirar(fila, historico->topo->registro);
+                    printf("Última operação de desenfileiramento desfeita (re-enfileirado).\n");
+                } else {
+                    printf("Operação desconhecida. Nenhuma ação realizada.\n");
+                }
+                pop(historico); // remove da pilha
+            } else {
+                printf("Desfazer cancelado.\n");
+            }
+
+            break;
+        }
+
+        default:
+            printf("Opção inválida!\n");
+    }
 }
+
 
 void menu_salvar_carrega(Fila *fila, Heap *heap) {
     int op;
