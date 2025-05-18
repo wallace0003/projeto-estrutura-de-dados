@@ -19,5 +19,7 @@ void enfileirar(Fila *fila, Registro *r);
 Registro *desenfileirar(Fila *fila);
 void mostrar_fila(Fila *fila);
 int fila_vazia(Fila *fila);
+void reenfileirar(Fila *fila, Registro *r); 
+Registro *desenfileirar_ultimo(Fila *fila); 
 
 #endif

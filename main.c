@@ -3,11 +3,13 @@
 #include <string.h>
 #include "menu.h"
 #include "atendimento_prioritario.h"
+#include "desfazer.h"
 
 int main() {
     LDE *lista = criar_lista();
     Fila *fila = criar_fila();
     Heap *prioridade = malloc(sizeof(Heap));
+    Pilha *pilha = criar_pilha();
     inicializar_heap(prioridade);
 
     int opcao;
@@ -31,7 +33,7 @@ int main() {
                 menu_cadastro(lista);
                 break;
             case 2:
-                menu_atendimento(lista, fila);
+                menu_atendimento(lista, fila, pilha);
                 break;
             case 3:
                 menu_atendimento_prioritario(lista, prioridade);
@@ -40,10 +42,10 @@ int main() {
                 menu_pesquisa(lista);
                 break;
             case 5:
-                menu_desfazer();
+                menu_desfazer(pilha, fila);
                 break;
             case 6:
-                menu_salvar_carrega(fila, prioridade);
+                menu_salvar_carrega_registros(lista);
                 break;
             case 7:
                 menu_sobre();

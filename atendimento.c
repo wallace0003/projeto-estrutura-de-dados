@@ -64,3 +64,54 @@ void mostrar_fila(Fila *fila) {
 int fila_vazia(Fila *fila) {
     return fila->head == NULL;
 }
+
+void reenfileirar(Fila *fila, Registro *r) {
+    No *novo = malloc(sizeof(No));
+    novo->dados = r;
+    novo->proximo = fila->head;
+
+    fila->head = novo;
+
+    if (fila->tail == NULL) {
+        fila->tail = novo;
+    }
+
+    fila->qtd++;
+    printf("Paciente reenfileirado no início da fila.\n");
+}
+
+Registro *desenfileirar_ultimo(Fila *fila) {
+    if (fila->head == NULL) {
+        printf("Fila vazia.\n");
+        return NULL;
+    }
+
+    No *atual = fila->head;
+    No *anterior = NULL;
+
+    // Caso só exista um elemento na fila
+    if (atual->proximo == NULL) {
+        Registro *r = atual->dados;
+        free(atual);
+        fila->head = fila->tail = NULL;
+        fila->qtd--;
+        return r;
+    }
+
+    // Percorre até o penúltimo
+    while (atual->proximo != NULL) {
+        anterior = atual;
+        atual = atual->proximo;
+    }
+
+    Registro *r = atual->dados;
+    free(atual);
+    anterior->proximo = NULL;
+    fila->tail = anterior;
+    fila->qtd--;
+
+    return r;
+}
+
+
+
