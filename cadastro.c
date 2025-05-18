@@ -38,7 +38,10 @@ void remover(LDE *lista, const char *rg) {
         atual = atual->proximo;
     }
 
-    if (atual == NULL) return;
+    if (atual == NULL){
+        printf("RG informado não foi encontrado.\n");
+        return;
+    }
 
     if (anterior == NULL) {
         lista->primeiro = atual->proximo;
@@ -49,6 +52,7 @@ void remover(LDE *lista, const char *rg) {
     free(atual->registro.entrada);
     free(atual);
     lista->qtd--;
+    printf("Remoção feita com sucesso.\n");
 }
 
 void mostrar(LDE *lista) {
@@ -71,8 +75,6 @@ void atualizar(LDE *lista, const char *rg) {
     while (atual != NULL) {
         if (strcmp(atual->registro.rg, rg) == 0) {
             printf("\n--- Atualizar paciente ---\n");
-
-            limpar_buffer(); // limpa antes de fgets (se vier de scanf anterior)
             printf("Novo nome: ");
             fgets(atual->registro.nome, tam_nome, stdin);
             atual->registro.nome[strcspn(atual->registro.nome, "\n")] = 0;

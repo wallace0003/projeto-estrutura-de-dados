@@ -45,7 +45,7 @@ int main() {
                 menu_desfazer(pilha, fila);
                 break;
             case 6:
-                menu_salvar_carrega(fila, prioridade);
+                menu_salvar_carrega_registros(lista);
                 break;
             case 7:
                 menu_sobre();

@@ -12,7 +12,7 @@ void menu_cadastro(LDE *lista);
 void menu_atendimento(LDE *lista, Fila *fila, Pilha *pilha);
 void menu_atendimento_prioritario(LDE *lista, Heap *heap);
 void menu_pesquisa(LDE *lista);
-void menu_salvar_carrega(Fila *fila, Heap *heap);
+void menu_salvar_carrega_registros(LDE *lista);
 void menu_desfazer(Pilha *historico, Fila *fila);
 void menu_sobre();
 #endif
