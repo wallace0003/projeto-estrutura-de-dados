@@ -35,5 +35,6 @@ void mostrar(LDE *lista);
 Registro consultar(LDE *lista, const char *rg);
 void atualizar(LDE *lista, const char *rg);
 Registro* consultar_ponteiro (LDE *lista, const char *rg);
+int conferir_rg(LDE *lista, const char *rg);
 
 #endif

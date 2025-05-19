@@ -61,8 +61,12 @@ void menu_cadastro(LDE *lista) {
         switch (opcao) {
             case 1: {
                 Registro r = ler_paciente();
-                inserir(lista, r);
-                printf("Paciente cadastrado com sucesso!\n");
+                if(conferir_rg(lista, r.rg)){
+                    printf("Esse rg já foi cadastrado!");
+                }else{
+                    inserir(lista, r);
+                    printf("Paciente cadastrado com sucesso!\n");
+                }
                 break;
             }
             case 2:

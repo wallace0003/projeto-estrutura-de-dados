@@ -135,4 +135,12 @@ Registro* consultar_ponteiro (LDE *lista, const char *rg) {
     return NULL;
 }
 
-
+int conferir_rg(LDE *lista, const char *rg){
+    Celula *atual = lista->primeiro;
+    while (atual != NULL) {
+        if(strcmp(atual->registro.rg, rg) == 0){
+            return 1;
+        }
+        atual = atual->proximo;
+    }
+}
